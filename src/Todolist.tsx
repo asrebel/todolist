@@ -1,5 +1,6 @@
 import React from "react";
 import {Button} from "./Button";
+import {FilterValues} from "./App";
 
 
 export type TaskProps = {
@@ -11,12 +12,16 @@ export type TaskProps = {
 type TodolistProps = {
     title: string
     tasks: Array<TaskProps>
+    removeTask: (taskId: number) => void
+    changeTodolistFilter:(filter:FilterValues)=>void
 }
 
 export const Todolist: React.FC<TodolistProps> = (
     {
         title,
-        tasks
+        tasks,
+        removeTask,
+        changeTodolistFilter,
     }) => {
 
     const tasksItems: JSX.Element = tasks.length !== 0
@@ -27,6 +32,10 @@ export const Todolist: React.FC<TodolistProps> = (
                         <input type='checkbox'
                                checked={task.isDone}/>
                         <span>{task.title}</span>
+                        <Button title='X' onClickHandler={() => removeTask(task.id)}/>
+{/*
+                        <button onClick={() => removeTask(task.id)}>X</button>
+*/}
                     </li>
                 )
             })}
@@ -39,13 +48,13 @@ export const Todolist: React.FC<TodolistProps> = (
             <h3>{title}</h3>
             <div>
                 <input/>
-                <Button title='+'/>
+                <Button title='+' onClickHandler={()=>{}}/>
             </div>
             {tasksItems}
             <div>
-                <Button title='All'/>
-                <Button title='Active'/>
-                <Button title='Completed'/>
+                <Button title='All' onClickHandler={()=>changeTodolistFilter('all')}/>
+                <Button title='Active' onClickHandler={()=>changeTodolistFilter('active')}/>
+                <Button title='Completed' onClickHandler={()=>changeTodolistFilter('completed')}/>
             </div>
         </div>
     )
