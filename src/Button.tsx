@@ -4,18 +4,20 @@ type ButtonProps = {
     title: string
     onClickHandler: () => void
     isDisabled?: boolean
+    classes?: string
 }
 export const Button: React.FC<ButtonProps> = ({
                                                   title,
                                                   onClickHandler,
-                                                  isDisabled
+                                                  isDisabled,
+                                                  classes
                                               }) => {
     return (
         <>
-            <button
-                disabled={isDisabled}
-                onClick={onClickHandler}>
-                {title}
+            <button className={classes}
+                    disabled={isDisabled}
+                    onClick={onClickHandler}
+            >{title}
             </button>
         </>
     );

@@ -13,3 +13,34 @@
   background-color: darkseagreen;
   padding: 20px;
 }
+
+.task {
+  font-weight: bold;
+}
+
+.task-done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.btn-active-filter {
+  background-color: chocolate;
+  border: 2px solid chocolate;
+  border-radius: 3px;
+  font-weight: bold;
+
+}
+
+.btn-filter {
+  background-color: goldenrod;
+}
+
+.filter-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.task-input-error {
+  border: 2px solid red;
+  outline: none;
+}

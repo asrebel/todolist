@@ -21,10 +21,16 @@ function App() {
         const nextState: Array<TaskProps> = tasks.filter(task => task.id !== taskId)
         setTasks(nextState)
     }
-
     const addTask = (title: string) => {
         const newTask: TaskProps = {id: v1(),title,isDone: false}
         setTasks([newTask, ...tasks])
+    }
+
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        const nextState: Array<TaskProps> = tasks.map(task => task.id === taskId
+            ? {...task, isDone}
+            : task)
+        setTasks(nextState)
     }
 
     return (
@@ -33,6 +39,7 @@ function App() {
                       tasks={tasks}
                       removeTask={removeTask}
                       addTask={addTask}
+                      changeTaskStatus={changeTaskStatus}
             />
         </div>
     );
