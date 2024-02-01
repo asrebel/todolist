@@ -35,7 +35,7 @@
   background-color: goldenrod;
 }
 
-.filter-btns {
+.filter-buttons {
   display: flex;
   gap: 6px;
 }

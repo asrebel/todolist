@@ -10,17 +10,21 @@ export type TaskProps = {
 }
 
 type TodolistProps = {
+    todoListID: string
     title: string
     tasks: Array<TaskProps>
-    removeTask: (taskId: string) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    removeTodoList: (todoListID: string) => void
+    removeTask: (todoListID: string, taskId: string) => void
+    addTask: (todoListID: string, title: string) => void
+    changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
 }
 
 export const Todolist: React.FC<TodolistProps> = (
     {
+        todoListID,
         title,
         tasks,
+        removeTodoList,
         removeTask,
         addTask,
         changeTaskStatus,
@@ -31,6 +35,7 @@ export const Todolist: React.FC<TodolistProps> = (
     const [error, setError] = useState(false)
     const [isHide, setIsHide] = useState(false)
 
+    const removeTodoListHandler = () => {removeTodoList(todoListID)}
     const toggleHideTodoList = () => setIsHide(!isHide)
     const changeTodolistFilter = (filter: FilterValues) => {
         setFilter(filter)
@@ -38,7 +43,7 @@ export const Todolist: React.FC<TodolistProps> = (
     const addNewTaskHandler = () => {
         const trimmedTaskTitle = taskTitle.trim()
         if (trimmedTaskTitle) {
-            addTask(trimmedTaskTitle)
+            addTask(todoListID, trimmedTaskTitle)
         } else {
             setError(true)
         }
@@ -80,8 +85,8 @@ export const Todolist: React.FC<TodolistProps> = (
     const tasksItems: JSX.Element = tasks.length !== 0
         ? <ul>
             {tasksForTodolist.map(task => {
-                const removeTaskHandler = () => removeTask(task.id)
-                const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked)
+                const removeTaskHandler = () => removeTask(todoListID, task.id)
+                const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todoListID, task.id, e.currentTarget.checked)
 
                 return (
                     <li key={task.id}>
@@ -102,6 +107,7 @@ export const Todolist: React.FC<TodolistProps> = (
             <h3>
                 {title}
                 <Button title={isHide ? 'Show' : 'Hide'} onClickHandler={toggleHideTodoList}/>
+                <Button title={'X'} onClickHandler={removeTodoListHandler}/>
             </h3>
             {isHide && <div>{`Количество активных задач: ${countActiveTasksForHideMode}`}</div>}
             {!isHide && <>
@@ -119,7 +125,7 @@ export const Todolist: React.FC<TodolistProps> = (
                     {error && <div style={{color: 'red'}}>Введите название таски.</div>}
                 </div>
                 {tasksItems}
-                <div className={'filter-btns'}>
+                <div className={'filter-buttons'}>
                     <Button
                         title='All'
                         onClickHandler={changeFilterHandlerCreator('all')}
